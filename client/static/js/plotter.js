@@ -19,13 +19,11 @@ window.Bci.Plotter = (function () {
   var tapeScratchWidth = displayWidth * 2;
   var tapeScratchHeight = displayHeight;
 
-  // var tapeCnvs = document.getElementById('tapeCnvs');
   var tapeCnvs = document.createElement('canvas');
   tapeCnvs.width = tapeWidth;
   tapeCnvs.height = tapeHeight;
   var tapeCtx = tapeCnvs.getContext('2d');
 
-  // var tapeScratchCnvs = document.getElementById('tapeScratchCnvs');
   var tapeScratchCnvs = document.createElement('canvas');
   tapeScratchCnvs.width = tapeScratchWidth;
   tapeScratchCnvs.height = tapeScratchHeight;
@@ -35,20 +33,28 @@ window.Bci.Plotter = (function () {
   var tapeUpdated = false;
   var tapeOffset = 0;
 
-  var pallete = [
-    [222, 222, 222],
-    [255, 0,   0],
-    [255, 255, 0],
-    [0,   255, 0],
-    [0,   255, 255],
-    [0,   0,   255],
-    [255, 0,   255],
-    [200, 200, 200]
+  var COLORS = [
+    [129, 129, 129],
+    [124, 75,  141],
+    [54,  87,  158],
+    [49,  113, 89],
+    [221, 178, 13],
+    [253, 94,  52],
+    [224, 56,  45],
+    [162, 82,  49]
   ];
 
-  var previousSamples = [0, 0, 0, 0, 0, 0, 0, 0];
+  var NUM_CHANNELS = 8;
+  var previousSamples = new Array(NUM_CHANNELS);
+  var zeroPoints = new Array(NUM_CHANNELS);
+  for (var i = 0; i < NUM_CHANNELS; i++) {
+    previousSamples[i] = 0;
+    // Calculate the zeropoint of each channel so they're evenly spaced along
+    // the y axis of the canvas.
+    zeroPoints[i] = (displayHeight / NUM_CHANNELS + 1 ) * (ch + 1);
+  };
 
-  function traceFromPrevious(y1, y2, color, pixels) {
+  function traceFromPrevious(y1, y2, color, pixels, zeroPoint) {
     // y1 is the previous point, y2 is the present
     var y, i;
     if (y1 < y2) {
@@ -60,7 +66,7 @@ window.Bci.Plotter = (function () {
       y2 = y;
     }
     for (y = y1; y <= y2; y++) {
-      i = (displayHeight / 2 - y) * 4;
+      i = (zeroPoint - y) * 4;
       pixels.data[i]   = color[0];
       pixels.data[i+1] = color[1];
       pixels.data[i+2] = color[2];
@@ -68,11 +74,12 @@ window.Bci.Plotter = (function () {
     }
   }
 
-  function plotSamples(samples) {
-    var pixels = new ImageData(1, displayHeight);
+  function plotSamples(samples, scale) {
+    var scaled_sample, pixels = new ImageData(1, displayHeight);
     for (var ch = 0; ch < samples.length; ch++) {
-      traceFromPrevious(previousSamples[ch], samples[ch], pallete[ch], pixels);
-      previousSamples[ch] = samples[ch];
+      scaled_sample = parseInt(samples[ch] / -90, 10);
+      traceFromPrevious(previousSamples[ch], scaled_sample, COLORS[ch], pixels, zeroPoints[ch]);
+      previousSamples[ch] = scaled_sample;
     }
     tapeCtx.putImageData(pixels, tapeOffset, 0);
     tapeUpdated = true;

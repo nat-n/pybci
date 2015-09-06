@@ -29,10 +29,10 @@ class OpenBCI(Source):
 
         # Start streaming from device in a daemonised thread
         self.bciboard_thread = threading.Thread(target=self.bci.start_streaming,
-                                           args=[self._on_sample,
-                                                 self._boardEndCallback])#,
-                                                 # self._boardTimeoutCallback,
-                                                 # self.config['timeout']])
+                                                args=[self._on_sample,
+                                                      self._boardEndCallback])#,
+                                                      # self._boardTimeoutCallback,
+                                                      # self.config['timeout']])
         self.bciboard_thread.daemon = True
 
     def start(self):

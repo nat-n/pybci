@@ -247,7 +247,7 @@ class OpenBCIBoard(object):
           return sample
         else:
           self.warn("Warning: Unexpected END_BYTE found <%s> instead of <%s>,\
-            discarted packet with id <%d>"
+            discarded packet with id <%d>"
             %(val, END_BYTE, packet_id))
 
   """

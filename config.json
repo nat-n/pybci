@@ -7,11 +7,17 @@
     },
     "children": [
       {
-        "type": "output:websockets",
-        "config": {
-          "http-port": 8910,
-          "dashboard": true
-        }
+        "type": "filter:baseline",
+        "config": {},
+        "children": [
+          {
+            "type": "output:websockets",
+            "config": {
+              "http-port": 8910,
+              "dashboard": true
+            }
+          }
+        ]
       }
     ]
   }

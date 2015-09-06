@@ -13,7 +13,7 @@ window.Bci.Ws = (function () {
     }
     ws = new WebSocket(wsEndpoint);
     function init() {
-      ws.onmessage = function(msg){
+      ws.onmessage = function (msg) {
         var content = JSON.parse(msg.data);
         listeners.forEach(function (listener) { listener(content); });
       };

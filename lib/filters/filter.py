@@ -3,7 +3,7 @@ class Filter(object):
 
     def __init__(self, **kwargs):
         self._children = []
-        self.config = dict({}, kwargs)
+        self.config = dict(kwargs)
         self.name = 'filter:unnamed'
 
     def register(self, new_child):
@@ -27,7 +27,7 @@ class Filter(object):
         self.config.update(cnfg)
 
     def _on_data(self, data):
-        result = _process(data)
+        result = self._process(data)
         for c in self._children:
             c._on_data(result)
 
@@ -39,4 +39,4 @@ class Filter(object):
 
     def _process(self, data):
         # to be implemented by subclass
-        pass
+        return data
