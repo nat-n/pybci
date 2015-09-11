@@ -7,7 +7,7 @@
     },
     "children": [
       {
-        "type": "filter:baseline",
+        "type": "filter:noop",
         "config": {},
         "children": [
           {

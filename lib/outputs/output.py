@@ -2,8 +2,11 @@ from ..sources import Source
 
 class Output(object):
 
+    _default_config = {}
+
     def __init__(self, **kwargs):
-        self.config = dict(kwargs)
+        self.config = dict(self._default_config)
+        self.config.update(kwargs)
         self.name = 'output:unnamed'
         self.source = None
 

@@ -10,12 +10,18 @@ ACTIVATE = ["!", "@", "#", "$", "%", "^", "&", "*",
 class OpenBCI(Source):
     # TODO: attach other info from the board, e.g. status changes?
 
+    _default_config = {
+        'port': '/dev/tty.usbserial-DN0093NU',
+        'active_channels': [0, 1, 2, 3, 4, 5, 6, 7],
+        'timeout': -1
+    }
+
     def __init__(self, **kwargs):
         super(OpenBCI, self).__init__(**kwargs)
         self.name = 'source:bciboard'
-        self.config['port'] = kwargs.get('port', "/dev/tty.usbserial-DN0093NU")
-        self.config['channels'] = kwargs.get('channels', [0,1,2,3,4,5,6,7])
-        self.config['timeout'] = kwargs.get('timeout', -1)
+        # self.config['port'] = kwargs.get('port', "/dev/tty.usbserial-DN0093NU")
+        # self.config['channels'] = kwargs.get('channels', [0,1,2,3,4,5,6,7])
+        # self.config['timeout'] = kwargs.get('timeout', -1)
 
         # initialise the bci
         self.bci = bci.OpenBCIBoard(port=self.config['port'])

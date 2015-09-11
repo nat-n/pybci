@@ -28,6 +28,8 @@ from tornado.options import options, define
 # }
 
 class Pipeline():
+    # TODO: Allow nodes to be declared as only initialisable once in the pipeline
+    # TODO: move this class out into lib
 
     def __init__(self, config):
         self.loop = self._default_loop
@@ -84,7 +86,7 @@ class Pipeline():
 
 
 if __name__ == '__main__':
-    define('config', default='config.json', help="Pipeline config file", type=str)
+    define('config', default='config2.json', help="Pipeline config file", type=str) # TODO: document how to use this
     options.parse_command_line()
 
     DIRECTORY_ROOT = os.path.dirname(__file__)

@@ -1,9 +1,6 @@
-
 window.Bci = (window.Bci || {});
 
-
 // TODO: make scrollspeed depend on time (pixels per second) rather than plot speed
-
 
 window.Bci.Plotter = (function () {
   'use strict';
@@ -51,7 +48,10 @@ window.Bci.Plotter = (function () {
     previousSamples[i] = 0;
     // Calculate the zeropoint of each channel so they're evenly spaced along
     // the y axis of the canvas.
-    zeroPoints[i] = (displayHeight / NUM_CHANNELS + 1 ) * (ch + 1);
+    zeroPoints[i] = (
+      Math.floor(displayHeight / (NUM_CHANNELS + 0.5)) * (i+1) -
+      Math.floor(0.25 *  displayHeight / NUM_CHANNELS)
+    );
   };
 
   function traceFromPrevious(y1, y2, color, pixels, zeroPoint) {
@@ -77,7 +77,7 @@ window.Bci.Plotter = (function () {
   function plotSamples(samples, scale) {
     var scaled_sample, pixels = new ImageData(1, displayHeight);
     for (var ch = 0; ch < samples.length; ch++) {
-      scaled_sample = parseInt(samples[ch] / -90, 10);
+      scaled_sample = Math.floor(samples[ch] * scale);
       traceFromPrevious(previousSamples[ch], scaled_sample, COLORS[ch], pixels, zeroPoints[ch]);
       previousSamples[ch] = scaled_sample;
     }

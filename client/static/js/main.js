@@ -1,10 +1,9 @@
-
 window.Bci = (window.Bci || {});
 
 window.Bci.Ws.connect();
 
 var unlisten = window.Bci.Ws.listen(function (packet) {
-  var signalScale = -1/-90;
+  var signalScale = -1/-70;
   Bci.Plotter.plotSamples(packet.channel_data, signalScale);
   verifySampleOrder(packet);
 });

@@ -1,10 +1,12 @@
 
 class Filter(object):
+    name = 'filter:unnamed'
+    _default_config = {}
 
     def __init__(self, **kwargs):
         self._children = []
-        self.config = dict(kwargs)
-        self.name = 'filter:unnamed'
+        self.config = dict(self._default_config)
+        self.config.update(kwargs)
 
     def register(self, new_child):
         new_child._link(self)

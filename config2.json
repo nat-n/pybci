@@ -1,17 +1,30 @@
 {
   "BCIWebStream": {
-    "type": "source:stdin",
+    "type": "source:inputfile",
     "config": {
-      "channels": [1,2,3,4,5,6,7,8],
-      "port": "/dev/tty.usbserial-DN0093NU"
+      "file_path": "tmp"
     },
     "children": [
       {
-        "type": "output:websockets",
-        "config": {
-          "http-port": 8910,
-          "dashboard": true
-        }
+        "type": "filter:baseline",
+        "config": {},
+        "children": [
+          {
+            "type": "filter:notch",
+            "config": {
+              "frequency": 50
+            },
+            "children": [
+              {
+                "type": "output:websockets",
+                "config": {
+                  "http-port": 8910,
+                  "dashboard": true
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   }

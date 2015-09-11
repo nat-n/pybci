@@ -1,0 +1,4 @@
+tornado==4.0.2
+numpy==1.9.2
+pyserial==2.7
+Werkzeug==0.10.1

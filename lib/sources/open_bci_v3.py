@@ -1,3 +1,5 @@
+# TODO: move this to somewhere else in lib?
+
 """
 Core OpenBCI object for handling connections and samples from the board.
 

@@ -1,9 +1,12 @@
 
 class Source(object):
 
+    _default_config = {}
+
     def __init__(self, **kwargs):
         self._children = []
-        self.config = dict(kwargs)
+        self.config = dict(self._default_config)
+        self.config.update(kwargs)
         self.name = 'source:unnamed'
         self.streaming = False
 
